@@ -8,25 +8,25 @@ public class Viagem {
 
     private Integer id;
     private String apelidoViagem;
-    private String estacao;
+    private String estacaoDoAno;
     private LocalDate dataIda;
     private LocalDate dataVolta;
     private Integer diasNoJapao;
-    private Double dinheiroViagem;
+    private Double reservaViagem;
 
     // Construtores:
 
     public Viagem() {
     }
 
-    public Viagem(Integer id, String apelidoViagem, String estacao, LocalDate dataIda, LocalDate dataVolta, Integer diasNoJapao, Double dinheiroViagem) {
+    public Viagem(Integer id, String apelidoViagem, String estacaoDoAno, LocalDate dataIda, LocalDate dataVolta, Integer diasNoJapao, Double reservaViagem) {
         this.id = id;
         this.apelidoViagem = apelidoViagem;
-        this.estacao = estacao;
+        this.estacaoDoAno = estacaoDoAno;
         this.dataIda = dataIda;
         this.dataVolta = dataVolta;
         this.diasNoJapao = diasNoJapao;
-        this.dinheiroViagem = dinheiroViagem;
+        this.reservaViagem = reservaViagem;
     }
 
     // Getters e setters:
@@ -49,11 +49,11 @@ public class Viagem {
     }
 
     public String getEstacao() {
-        return estacao;
+        return estacaoDoAno;
     }
 
-    public void setEstacao(String estacao) {
-        this.estacao = estacao;
+    public void setEstacao(String estacaoDoAno) {
+        this.estacaoDoAno = estacaoDoAno;
     }
 
     public LocalDate getDataIda() {
@@ -81,10 +81,10 @@ public class Viagem {
     }
 
     public Double getDinheiroViagem() {
-        return dinheiroViagem;
+        return reservaViagem;
     }
 
-    public void setDinheiroViagem(Double dinheiroViagem) {
-        this.dinheiroViagem = dinheiroViagem;
+    public void setDinheiroViagem(Double reservaViagem) {
+        this.reservaViagem = reservaViagem;
     }
 }
