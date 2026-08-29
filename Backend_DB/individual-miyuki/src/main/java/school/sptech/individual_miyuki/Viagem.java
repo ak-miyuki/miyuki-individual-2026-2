@@ -31,7 +31,6 @@ public class Viagem {
 
     // Getters e setters:
 
-
     public Integer getId() {
         return id;
     }
@@ -48,11 +47,11 @@ public class Viagem {
         this.apelidoViagem = apelidoViagem;
     }
 
-    public String getEstacao() {
+    public String getEstacaoDoAno() {
         return estacaoDoAno;
     }
 
-    public void setEstacao(String estacaoDoAno) {
+    public void setEstacaoDoAno(String estacaoDoAno) {
         this.estacaoDoAno = estacaoDoAno;
     }
 
@@ -80,11 +79,11 @@ public class Viagem {
         this.diasNoJapao = diasNoJapao;
     }
 
-    public Double getDinheiroViagem() {
+    public Double getReservaViagem() {
         return reservaViagem;
     }
 
-    public void setDinheiroViagem(Double reservaViagem) {
+    public void setReservaViagem(Double reservaViagem) {
         this.reservaViagem = reservaViagem;
     }
 }
