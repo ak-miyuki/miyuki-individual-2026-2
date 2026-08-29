@@ -119,7 +119,7 @@ public class ViagemController {
                 dataIda == null ||
                 dataVolta == null ||
                 diasNoJapao == null ||
-                reservaViagem == null) {
+                reservaViagem == null || reservaViagem < 0) {
 
             return false;
         }
