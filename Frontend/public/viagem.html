@@ -10,42 +10,16 @@
 
   <script src="../js/sessao.js"></script>
 
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/dashboards.css" />
-
-
-  <!-- <link rel="icon" href="../assets/icons/mt_fuji_img.png" /> -->
+  <link rel="stylesheet" href="./css/style.css" />
 
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body>
+<body onload="atualizarPagina()">
   <!------------------------------- HEADER ------------------------------->
   <div class="header">
     <div class="container">
       <h1 class="titulo">『日本』Nippon Insight</h1>
-      <ul class="navbar">
-        <li>
-          <a href="./dashboard.html">DASHBOARD</a>
-        </li>
-        <li>|</li>
-        <li class="agora">
-          <a href="#">EDITAR VIAGEM</a>
-        </li>
-        <li>|</li>
-        <li>
-          <a href="./escolhas.html">ESCOLHAS</a>
-        </li>
-
-      </ul>
-      <div class="nome-sair">
-        <div class="hello">
-          <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-        </div>
-        <div>
-          <button class="botao-preto" onclick="limparSessao()">SAIR</button>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -57,12 +31,9 @@
         <span id="mensagem_erro"></span>
       </div>
     </div>
-    <div id="div_img_esquerda" class="img_esquerda">
-      <!-- <img src="../assets/imgs/mt_fuji.png" alt=""> -->
-    </div>
     <div class="container">
       <div class="card card-cadastro">
-        <h2>Sobre a viagem</h2>
+        <h2>Cadastrar viagem</h2>
         <div class="formulario">
           <!--
                          Para inserir mais um campo, copie uma das inputs abaixo.
@@ -71,12 +42,28 @@
 
           <div class="campo">
             <span>Em qual estação do ano você deseja viajar?</span>
-            <select id="select_estacao">
-              <option>INVERNO</option>
-              <option>OUTONO</option>
-              <option>PRIMAVERA</option>
-              <option>VERÃO</option>
-            </select>
+            <div class="radio_estacoes" id="radio_estacoes">
+              <label class="radio_estacao_card shadow_fuyu">
+                <input type="radio" name="estacao" value="INVERNO" checked>
+                <img src="./assets/imgs/sapporo-snow-festival-1536.jpg" alt="Inverno">
+                <span>『冬』INVERNO</span>
+              </label>
+              <label class="radio_estacao_card shadow_aki">
+                <input type="radio" name="estacao" value="OUTONO">
+                <img src="./assets/imgs/fukuoka_autumn.jpg" alt="Outono">
+                <span>『秋』OUTONO</span>
+              </label>
+              <label class="radio_estacao_card shadow_haru">
+                <input type="radio" name="estacao" value="PRIMAVERA">
+                <img src="./assets/imgs/hanami.jpg" alt="Primavera">
+                <span>『春』PRIMAVERA</span>
+              </label>
+              <label class="radio_estacao_card shadow_natsu">
+                <input type="radio" name="estacao" value="VERÃO">
+                <img src="./assets/imgs/6.Summer-Festival.jpg" alt="Verão">
+                <span>『夏』VERÃO</span>
+              </label>
+            </div>
           </div>
           <div class="campo">
             <span>Data de ida: </span>
@@ -95,8 +82,6 @@
             <input id="valor_guardado_input" type="number" placeholder="Em reais, ex. 3000.00" />
           </div>
 
-
-
         </div>
 
         <button class="botao" onclick="cadastrar()">CADASTRAR</button>
@@ -106,8 +91,47 @@
 
         <div id="div_erros_login"></div>
       </div>
+
+      <div class="card-sua-viagem">
+        <div class="titulo-sua-viagem">
+          <h2>SUA VIAGEM</h2>
+        </div>
+
+        <div class="conteudo-sua-viagem">
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Data de ida</h3>
+            <span id="span_dt_ida"> --//-- </span>
+          </div>
+
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Data de volta:</h3>
+            <span id="span_dt_volta"> --//-- </span>
+          </div>
+
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Horas de vôo:</h3>
+            <span id="span_horas_voo"> --//-- </span>
+          </div>
+
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Dias no Japão:</h3>
+            <span id="span_dias_japao"> --//-- </span>
+          </div>
+
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Quantidade de pessoas:</h3>
+            <span id="span_qtd_pessoas"> --//-- </span>
+          </div>
+
+          <div class="bloco-viagem-ultimo">
+            <h3>&#x1F338; Valor à Adicionar/Retirar:</h3>
+            <input type="number" id="caixinha_input" placeholder="R$">
+            <button class="botao" onclick="atualizarCaixinha()">ATUALIZAR CAIXINHA</button>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
   </div>
 
   <!------------------------------ FOOTER -------------------------------->
@@ -130,18 +154,62 @@
 
 <script>
 
+  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+  var valor_guardado = 0;
+  var idViagem = sessionStorage.ID_VIAGEM;
+
+  if (idViagem == 'null') {
+    fetch(`/viagem/${sessionStorage.ID_USUARIO}`)
+      .then(function (resposta) {
+        resposta.json()
+          .then(function (respostaJson) {
+            sessionStorage.ID_VIAGEM = JSON.stringify(respostaJson.idViagem);
+          })
+      });
+  }
+
+  function atualizarPagina() {
+
+    var horas_voo = 50;
+    span_horas_voo.innerHTML = `~${horas_voo} HORAS`;
+
+    fetch(`/viagem/${sessionStorage.ID_USUARIO}`)
+      .then(response => response.json())
+      .then(listaViagem => {
+
+        if (listaViagem.length === 0) {
+          return;
+        }
+
+        if (idViagem == undefined) {
+          idViagem = listaViagem[0].idViagem;
+        }
+
+        span_dt_ida.innerHTML = listaViagem[0].dtIda;
+        span_dt_volta.innerHTML = listaViagem[0].dtVolta;
+        span_dias_japao.innerHTML = listaViagem[0].diasJapao;
+
+        var qtd_pessoas = Number(listaViagem[0].qtdPessoas);
+        span_qtd_pessoas.innerHTML = qtd_pessoas;
+
+        valor_guardado = Number(listaViagem[0].valorGuardado);
+      })
+      .catch(error => console.error('Erro ao buscar dados:', error));
+
+  }
+
   function cadastrar() {
     aguardar();
 
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
     var fkUsuarioVar = sessionStorage.ID_USUARIO;
-    var estacaoVar = select_estacao.value;
+    var estacaoVar = document.querySelector('input[name="estacao"]:checked').value;
     var dtIdaVar = dt_ida_input.value;
     var dtVoltaVar = dt_volta_input.value;
     var qtdPessoasVar = qtd_pessoas_input.value;
     var valorGuardadoVar = Number(valor_guardado_input.value);
-    var idViagem = sessionStorage.ID_VIAGEM;
 
     console.log(idViagem)
 
@@ -194,7 +262,6 @@
             console.log("1. resposta: ", resposta);
 
             if (resposta.ok) {
-
 
               resposta.json()
                 .then(function (respostaFormatada) {
@@ -275,6 +342,52 @@
 
   }
 
+  function atualizarCaixinha() {
+
+    var novoValorGuardadoVar = valor_guardado;
+    var caixinha = Number(caixinha_input.value);
+
+    novoValorGuardadoVar += caixinha;
+
+    // enviar ao banco
+    fetch("/viagem/atualizarCaixinha", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        novoValorGuardadoServer: novoValorGuardadoVar,
+        idUsuarioServer: sessionStorage.ID_USUARIO
+      }),
+    })
+      .then(function (resposta) {
+
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Caixinha atualizada com sucesso! Recarregando a página...";
+
+          caixinha_input.value = "";
+
+          setTimeout(() => {
+            atualizarPagina();
+          }, "2000");
+
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
 
   function sumirMensagem() {
     cardErro.style.display = "none";
