@@ -66,16 +66,16 @@
             </div>
           </div>
           <div class="campo">
+            <span>Apelido da viagem: </span>
+            <input id="apelido_viagem_input" type="text" placeholder="Ex: Ferias-2027" />
+          </div>
+          <div class="campo">
             <span>Data de ida: </span>
             <input id="dt_ida_input" type="date" />
           </div>
           <div class="campo">
             <span>Data de volta: </span>
             <input id="dt_volta_input" type="date" />
-          </div>
-          <div class="campo">
-            <span>Quantidade de pessoas: </span>
-            <input id="qtd_pessoas_input" type="number" placeholder="Ex: 1" />
           </div>
           <div class="campo">
             <span>Valor guardado para a viagem:</span>
@@ -94,10 +94,17 @@
 
       <div class="card-sua-viagem">
         <div class="titulo-sua-viagem">
-          <h2>SUA VIAGEM</h2>
+          <h2>SUAS VIAGENS</h2>
         </div>
 
+        
         <div class="conteudo-sua-viagem">
+          <div class="bloco-viagem">
+            <h3>SELECIONE UMA VIAGEM</h3>
+            <select id="select_viagem">
+              
+            </select>
+          </div>
           <div class="bloco-viagem">
             <h3>&#x1F338; Data de ida</h3>
             <span id="span_dt_ida"> --//-- </span>
