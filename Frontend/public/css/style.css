@@ -178,10 +178,6 @@ body {
   justify-content: space-around;
 }
 
-.formulario span {
-  font-size: 1.2rem;
-}
-
 .campo {
   margin-top: 1.5vh;
   display: flex;
@@ -189,56 +185,21 @@ body {
   justify-content: center;
   align-items: center;
   gap: 8px;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .campo span {
   margin: 7px 0 2px 0;
 }
 
-/* Div de Erros */
-#div_erros_login {
-  display: none;
-  justify-self: center;
-  align-self: center;
-}
-
-.alerta_erro {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.card_erro {
-  display: none;
-  background-color: #101010;
-  color: #ddd0b5;
-  width: 230px;
-  position: fixed;
-  top: 20vh;
-  right: 9vw;
-  border-radius: 4px;
-  border: #dfd4be 3px solid;
-  padding: 10px;
-  z-index: 995;
-}
-
-.card_erro span {
+.erro_campo {
+  font-size: 0.2rem;
   color: #bd6088;
-}
-
-.card_erro #mensagem_erro {
-  font-weight: 500;
-  font-size: 20px;
-}
-
-/* Div de gif de loading */
-.loading-div {
-  width: 50px;
-  display: none;
-}
-
-.loading-div img {
-  height: 50px;
-  width: 50px;
+  font-weight: 100;
+  min-height: 13px;
+  margin: 0;
+  font-size: 1rem;
 }
 
 /* ------------------------- FORMULÁRIO VIAGEM END ------------------------- */
@@ -298,27 +259,30 @@ body {
 
 .bloco-viagem h3,
 .bloco-viagem-ultimo h3 {
-  background-image: linear-gradient(to top right, #dfd4be, #c6a765, #bd6088, #9f3254);
+  background-image: linear-gradient(to top right, #bd6088, #c6a765, #dfd4be, #f0e9dc);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  font-weight: 700;
+  font-weight: 900;
   font-size: 1.3rem;
   margin-bottom: 6px;
 }
 
-.bloco-viagem span {
+.bloco-viagem span,
+.bloco-viagem-ultimo span {
   display: block;
-  background-image: linear-gradient(to top right, #dfd4be, #c6a765, #bd6088, #9f3254);
+  /* background-image: linear-gradient(to top right, #dfd4be, #c6a765, #bd6088, #9f3254);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: transparent; */
+  color: #bd6088;
   font-size: 1.3rem;
-  font-weight: 300;
+  font-weight: 100;
   overflow-wrap: break-word;
   word-break: break-word;
+  text-align: center;
 }
 
 /* ------------------------- CARD SUA VIAGEM END ------------------------- */
@@ -394,7 +358,7 @@ select {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 30px;
 }
 
 .radio_estacao_card {
@@ -404,7 +368,7 @@ select {
   align-items: center;
   width: 35%;
   border-radius: 6px;
-  border: 2px solid #3a3a3a;
+  border: 2px solid #bba77e;
   overflow: hidden;
   background-color: #101010;
   cursor: pointer;
@@ -412,15 +376,17 @@ select {
 }
 
 .radio_estacao_card:hover {
-  border-color: #c4b28b;
+  border-color: #b9a273;
 }
 
 .radio_estacao_card input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+  position: static;
+  opacity: 1;
+  width: auto;
+  height: auto;
   min-height: 0;
+  margin: 6px 0;
+  cursor: pointer;
 }
 
 .radio_estacao_card img {
@@ -444,18 +410,18 @@ select {
   transform: translateY(-3px);
 }
 
-.radio_estacao_card.shadow_haru:has(input:checked) {
+.radio_estacao_card.shadow_haru {
   box-shadow: -3px 3px 8px #bd6088;
 }
 
-.radio_estacao_card.shadow_natsu:has(input:checked) {
+.radio_estacao_card.shadow_natsu {
   box-shadow: -3px 3px 8px #fde0a1;
 }
 
-.radio_estacao_card.shadow_aki:has(input:checked) {
+.radio_estacao_card.shadow_aki {
   box-shadow: -3px 3px 8px #e98951;
 }
 
-.radio_estacao_card.shadow_fuyu:has(input:checked) {
+.radio_estacao_card.shadow_fuyu {
   box-shadow: -3px 3px 8px #9fbaf5;
 }

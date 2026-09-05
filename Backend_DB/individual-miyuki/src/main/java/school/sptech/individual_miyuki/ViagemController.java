@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.List;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
+
 @RestController
 
 @RequestMapping("/viagens")

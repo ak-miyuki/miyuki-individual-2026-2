@@ -8,29 +8,21 @@
 
   <title>Nippon Insight - EDITAR VIAGEM </title>
 
-  <script src="../js/sessao.js"></script>
-
   <link rel="stylesheet" href="./css/style.css" />
 
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="atualizarPagina()">
+<body onload="carregarViagens()">
   <!------------------------------- HEADER ------------------------------->
   <div class="header">
     <div class="container">
       <h1 class="titulo">『日本』Nippon Insight</h1>
-
     </div>
   </div>
   <!----------------------------- HEADER END ----------------------------->
 
   <div class="login">
-    <div class="alerta_erro">
-      <div class="card_erro" id="cardErro">
-        <span id="mensagem_erro"></span>
-      </div>
-    </div>
     <div class="container">
       <div class="card card-cadastro">
         <h2>Cadastrar viagem</h2>
@@ -43,53 +35,56 @@
           <div class="campo">
             <span>Em qual estação do ano você deseja viajar?</span>
             <div class="radio_estacoes" id="radio_estacoes">
-              <label class="radio_estacao_card shadow_fuyu">
-                <input type="radio" name="estacao" value="INVERNO" checked>
+              <div class="radio_estacao_card shadow_fuyu">
                 <img src="./assets/imgs/sapporo-snow-festival-1536.jpg" alt="Inverno">
+                <input type="radio" name="estacao" value="INVERNO" checked>
                 <span>『冬』INVERNO</span>
-              </label>
-              <label class="radio_estacao_card shadow_aki">
-                <input type="radio" name="estacao" value="OUTONO">
+              </div>
+              <div class="radio_estacao_card shadow_aki">
                 <img src="./assets/imgs/fukuoka_autumn.jpg" alt="Outono">
+                <input type="radio" name="estacao" value="OUTONO">
                 <span>『秋』OUTONO</span>
-              </label>
-              <label class="radio_estacao_card shadow_haru">
-                <input type="radio" name="estacao" value="PRIMAVERA">
+              </div>
+              <div class="radio_estacao_card shadow_haru">
                 <img src="./assets/imgs/hanami.jpg" alt="Primavera">
+                <input type="radio" name="estacao" value="PRIMAVERA">
                 <span>『春』PRIMAVERA</span>
-              </label>
-              <label class="radio_estacao_card shadow_natsu">
-                <input type="radio" name="estacao" value="VERÃO">
+              </div>
+              <div class="radio_estacao_card shadow_natsu">
                 <img src="./assets/imgs/6.Summer-Festival.jpg" alt="Verão">
+                <input type="radio" name="estacao" value="VERÃO">
                 <span>『夏』VERÃO</span>
-              </label>
+              </div>
             </div>
           </div>
+
           <div class="campo">
             <span>Apelido da viagem: </span>
             <input id="apelido_viagem_input" type="text" placeholder="Ex: Ferias-2027" />
+            <span class="erro_campo" id="erro_apelido"></span>
           </div>
+
           <div class="campo">
             <span>Data de ida: </span>
             <input id="dt_ida_input" type="date" />
+            <span class="erro_campo" id="erro_dt_ida"></span>
           </div>
+
           <div class="campo">
             <span>Data de volta: </span>
             <input id="dt_volta_input" type="date" />
+            <span class="erro_campo" id="erro_dt_volta"></span>
           </div>
+
           <div class="campo">
             <span>Valor guardado para a viagem:</span>
             <input id="valor_guardado_input" type="number" placeholder="Em reais, ex. 3000.00" />
+            <span class="erro_campo" id="erro_valor"></span>
           </div>
 
         </div>
 
         <button class="botao" onclick="cadastrar()">CADASTRAR</button>
-        <div id="div_aguardar" class="loading-div">
-          <img src="../assets/circle-loading.gif" id="loading-gif" />
-        </div>
-
-        <div id="div_erros_login"></div>
       </div>
 
       <div class="card-sua-viagem">
@@ -97,14 +92,23 @@
           <h2>SUAS VIAGENS</h2>
         </div>
 
-        
         <div class="conteudo-sua-viagem">
           <div class="bloco-viagem">
             <h3>SELECIONE UMA VIAGEM</h3>
             <select id="select_viagem">
-              
             </select>
           </div>
+
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Apelido da viagem:</h3>
+            <span id="span_apelido_viagem"> --//-- </span>
+          </div>
+
+          <div class="bloco-viagem">
+            <h3>&#x1F338; Estação do ano:</h3>
+            <span id="span_estacao_do_ano"> --//-- </span>
+          </div>
+
           <div class="bloco-viagem">
             <h3>&#x1F338; Data de ida</h3>
             <span id="span_dt_ida"> --//-- </span>
@@ -122,19 +126,14 @@
 
           <div class="bloco-viagem">
             <h3>&#x1F338; Dias no Japão:</h3>
-            <span id="span_dias_japao"> --//-- </span>
-          </div>
-
-          <div class="bloco-viagem">
-            <h3>&#x1F338; Quantidade de pessoas:</h3>
-            <span id="span_qtd_pessoas"> --//-- </span>
+            <span id="span_dias_no_japao"> --//-- </span>
           </div>
 
           <div class="bloco-viagem-ultimo">
-            <h3>&#x1F338; Valor à Adicionar/Retirar:</h3>
-            <input type="number" id="caixinha_input" placeholder="R$">
-            <button class="botao" onclick="atualizarCaixinha()">ATUALIZAR CAIXINHA</button>
+            <h3>&#x1F338; Reserva para a viagem:</h3>
+            <span id="span_reserva_viagem"> --//-- </span>
           </div>
+
         </div>
       </div>
 
@@ -147,7 +146,7 @@
       <div>
         <h4>Desenvolvido por Andréia Miyuki Kubota <br><br>
           ⁂ 久保田 美幸 ⁂
-          <br><br> SPTech 2025
+          <br><br> SPTech 2026
         </h4>
       </div>
       <br>
@@ -161,242 +160,151 @@
 
 <script>
 
-  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+function cadastrar() {
+  var estacao = document.querySelector('input[name="estacao"]:checked').value;
+  var apelido = apelido_viagem_input.value;
+  var dataIda = dt_ida_input.value;       // "yyyy-mm-dd"
+  var dataVolta = dt_volta_input.value;
+  var valorGuardado = Number(valor_guardado_input.value);
+  var hoje = new Date().toLocaleDateString("sv-SE");
 
-  var valor_guardado = 0;
-  var idViagem = sessionStorage.ID_VIAGEM;
+  limparErros();
+  var temErro = false;
 
-  if (idViagem == 'null') {
-    fetch(`/viagem/${sessionStorage.ID_USUARIO}`)
-      .then(function (resposta) {
-        resposta.json()
-          .then(function (respostaJson) {
-            sessionStorage.ID_VIAGEM = JSON.stringify(respostaJson.idViagem);
-          })
-      });
+  if (apelido == null || apelido == "" || apelido.trim().length < 2) {
+    erro_apelido.textContent = "Apelido deve ter pelo menos 2 dígitos";
+    temErro = true;
   }
 
-  function atualizarPagina() {
-
-    var horas_voo = 50;
-    span_horas_voo.innerHTML = `~${horas_voo} HORAS`;
-
-    fetch(`/viagem/${sessionStorage.ID_USUARIO}`)
-      .then(response => response.json())
-      .then(listaViagem => {
-
-        if (listaViagem.length === 0) {
-          return;
-        }
-
-        if (idViagem == undefined) {
-          idViagem = listaViagem[0].idViagem;
-        }
-
-        span_dt_ida.innerHTML = listaViagem[0].dtIda;
-        span_dt_volta.innerHTML = listaViagem[0].dtVolta;
-        span_dias_japao.innerHTML = listaViagem[0].diasJapao;
-
-        var qtd_pessoas = Number(listaViagem[0].qtdPessoas);
-        span_qtd_pessoas.innerHTML = qtd_pessoas;
-
-        valor_guardado = Number(listaViagem[0].valorGuardado);
-      })
-      .catch(error => console.error('Erro ao buscar dados:', error));
-
+  if (dataIda == null || dataIda == "" || dataIda < hoje) {
+    erro_dt_ida.textContent = "Data de ida inválida (não pode ser no passado)";
+    temErro = true;
   }
 
-  function cadastrar() {
-    aguardar();
-
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var fkUsuarioVar = sessionStorage.ID_USUARIO;
-    var estacaoVar = document.querySelector('input[name="estacao"]:checked').value;
-    var dtIdaVar = dt_ida_input.value;
-    var dtVoltaVar = dt_volta_input.value;
-    var qtdPessoasVar = qtd_pessoas_input.value;
-    var valorGuardadoVar = Number(valor_guardado_input.value);
-
-    console.log(idViagem)
-
-    // Verificando se há algum campo em branco
-    if (
-      dtIdaVar == "" ||
-      dtVoltaVar == "" ||
-      qtdPessoasVar <= 0 ||
-      valorGuardadoVar < 0
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        `<span style='color: #ddd0b5;''><b>Erro:</b></span> <br> Preencha todos os campos! <br><br>
-        - Deve ter no mínimo 1 pessoa
-        <br><br>
-        - O valor guardado deve ser maior ou igual a ZERO!`;
-      finalizarAguardar();
-      return false;
-
-    } else if (dtVoltaVar <= dtIdaVar) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "<span style='color: #ddd0b5;''><b>Erro:</b></span> <br> A data deve ser depois da data de ida!";
-      finalizarAguardar();
-      return false;
-
-    } else {
-
-      console.log(`idViagem:  `, idViagem);
-
-      if (idViagem == 'null') {
-
-        // Enviando o valor da nova input
-        fetch("/viagem/cadastrar", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            idUsuarioServer: sessionStorage.ID_USUARIO,
-            fkUsuarioServer: fkUsuarioVar,
-            estacaoServer: estacaoVar,
-            dtIdaServer: dtIdaVar,
-            dtVoltaServer: dtVoltaVar,
-            qtdPessoasServer: qtdPessoasVar,
-            valorGuardadoServer: valorGuardadoVar
-          }),
-        })
-          .then(function (resposta) {
-            console.log("1. resposta: ", resposta);
-
-            if (resposta.ok) {
-
-              resposta.json()
-                .then(function (respostaFormatada) {
-                  console.log(respostaFormatada)
-                  console.log(respostaFormatada.insertId)
-
-                  var idViagem = respostaFormatada.insertId;
-
-                  sessionStorage.ID_VIAGEM = idViagem;
-
-                })
-
-              cardErro.style.display = "block";
-
-              mensagem_erro.innerHTML =
-                "<span style='color: #ddd0b5;''><b>Cadastro realizado com sucesso!</b></span> <br> Redirecionando para a página das escolhas...";
-
-              setTimeout(() => {
-                window.location = "escolhas.html";
-              }, "2000");
-
-              finalizarAguardar();
-            } else {
-              throw "Houve um erro ao tentar realizar o cadastro!";
-            }
-          })
-          .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            finalizarAguardar();
-          });
-
-        return false;
-      } else {
-
-        fetch("/viagem/atualizarViagem", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // crie um atributo que recebe o valor recuperado aqui
-            // Agora vá para o arquivo routes/usuario.js
-            fkUsuarioServer: fkUsuarioVar,
-            estacaoServer: estacaoVar,
-            dtIdaServer: dtIdaVar,
-            dtVoltaServer: dtVoltaVar,
-            qtdPessoasServer: qtdPessoasVar,
-            valorGuardadoServer: valorGuardadoVar
-          }),
-        })
-          .then(function (resposta) {
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-              cardErro.style.display = "block";
-
-              mensagem_erro.innerHTML =
-                "<span style='color: #ddd0b5;''><b>Cadastro realizado com sucesso!</b></span> <br> Redirecionando para a página do dashboard...";
-
-              setTimeout(() => {
-                window.location = "dashboard.html";
-              }, "2000");
-
-              finalizarAguardar();
-            } else {
-              throw "Houve um erro ao tentar realizar o cadastro!";
-            }
-          })
-          .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            finalizarAguardar();
-          });
-
-        return false;
-      }
-
-    }
-
+  if (dataVolta == null || dataVolta == "" || dataVolta <= dataIda) {
+    erro_dt_volta.textContent = "Data de volta deve ser depois da data de ida";
+    temErro = true;
   }
 
-  function atualizarCaixinha() {
+  if (valor_guardado_input.value == null || valor_guardado_input.value == "" || isNaN(valorGuardado) || valorGuardado < 0) {
+    erro_valor.textContent = "Valor deve ser um número maior ou igual a 0";
+    temErro = true;
+  }
 
-    var novoValorGuardadoVar = valor_guardado;
-    var caixinha = Number(caixinha_input.value);
+  if (temErro) return;
 
-    novoValorGuardadoVar += caixinha;
+  var diasNoJapao = diasEntre(dataIda, dataVolta) - 2;
 
-    // enviar ao banco
-    fetch("/viagem/atualizarCaixinha", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        novoValorGuardadoServer: novoValorGuardadoVar,
-        idUsuarioServer: sessionStorage.ID_USUARIO
-      }),
+  if (diasNoJapao < 3) {
+    erro_dt_volta.textContent = "Período curto demais (considerando os 2 dias de viagem)";
+    return;
+  }
+
+  fetch("http://localhost:8080/viagens", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      apelidoViagem: apelido,
+      estacaoDoAno: estacao,
+      dataIda: dataIda,
+      dataVolta: dataVolta,
+      diasNoJapao: diasNoJapao,
+      reservaViagem: valorGuardado
     })
-      .then(function (resposta) {
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        console.log("Viagem cadastrada com sucesso!");
+        limparFormulario();
+        carregarViagens();
+      } else if (resposta.status === 409) {
+        erro_apelido.textContent = "Já existe uma viagem com esse apelido";
+      } else if (resposta.status === 400) {
+        erro_apelido.textContent = "Dados inválidos, confira os campos";
+      } else {
+        erro_apelido.textContent = "Falha ao cadastrar viagem";
+      }
+    })
+    .catch(function (erro) {
+      erro_apelido.textContent = "Não foi possível conectar ao servidor";
+      console.log("Erro:", erro);
+    });
+}
 
-        console.log("resposta: ", resposta);
+function limparErros() {
+  erro_apelido.textContent = "";
+  erro_dt_ida.textContent = "";
+  erro_dt_volta.textContent = "";
+  erro_valor.textContent = "";
+}
 
-        if (resposta.ok) {
-          cardErro.style.display = "block";
+function limparFormulario() {
+  apelido_viagem_input.value = "";
+  dt_ida_input.value = "";
+  dt_volta_input.value = "";
+  valor_guardado_input.value = "";
+}
 
-          mensagem_erro.innerHTML =
-            "Caixinha atualizada com sucesso! Recarregando a página...";
+// Calcula a diferença de dias entre duas strings "yyyy-mm-dd"
+function diasEntre(dataIniStr, dataFimStr) {
+  var ini = new Date(dataIniStr + "T00:00:00");
+  var fim = new Date(dataFimStr + "T00:00:00");
+  return Math.round((fim - ini) / (1000 * 60 * 60 * 24));
+}
 
-          caixinha_input.value = "";
-
-          setTimeout(() => {
-            atualizarPagina();
-          }, "2000");
-
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
+function carregarViagens() {
+  fetch("http://localhost:8080/viagens")
+    .then(function (resposta) { return resposta.json(); })
+    .then(function (viagens) {
+      select_viagem.innerHTML = "<option value=''>-- SELECIONE --</option>";
+      viagens.forEach(function (v) {
+        var opt = document.createElement("option");
+        opt.value = v.apelidoViagem;
+        opt.textContent = v.apelidoViagem;
+        select_viagem.appendChild(opt);
       });
+    })
+    .catch(function (erro) {
+      console.log("Erro ao carregar viagens:", erro);
+    });
+}
 
-    return false;
+select_viagem.addEventListener("change", function () {
+  var apelido = select_viagem.value;
+  if (apelido == null || apelido == "") {
+    limparDetalhes();
+    return;
   }
 
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
+  fetch("http://localhost:8080/viagens/" + encodeURIComponent(apelido))
+    .then(function (resposta) { 
+      return resposta.json(); 
+    })
+    .then(function (v) {
+      span_apelido_viagem.textContent = v.apelidoViagem;
+      span_estacao_do_ano.textContent = v.estacaoDoAno
+      span_dt_ida.textContent = formatarDataBr(v.dataIda);
+      span_dt_volta.textContent = formatarDataBr(v.dataVolta);
+      span_horas_voo.textContent = "50h (ida e volta)";
+      span_dias_no_japao.textContent = v.diasNoJapao + " dias";
+      span_reserva_viagem.textContent = v.reservaViagem.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    })
+    .catch(function () { limparDetalhes(); });
+});
+
+function limparDetalhes() {
+  span_apelido_viagem.textContent = "--//--";
+  span_dt_ida.textContent = "--//--";
+  span_dt_volta.textContent = "--//--";
+  span_horas_voo.textContent = "--//--";
+  span_dias_no_japao.textContent = "--//--";
+  span_reserva_viagem.textContent = "--//--";
+}
+
+function formatarDataBr(dataIso) {
+  if (dataIso == null) return "--//--";
+  var partes = dataIso.split("-");
+  return partes[2] + "/" + partes[1] + "/" + partes[0];
+}
+
 </script>
