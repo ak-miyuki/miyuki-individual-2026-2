@@ -35,26 +35,26 @@
           <div class="campo">
             <span>Em qual estação do ano você deseja viajar?</span>
             <div class="radio_estacoes" id="radio_estacoes">
-              <div class="radio_estacao_card shadow_fuyu">
+              <label class="radio_estacao_card shadow_fuyu">
                 <img src="./assets/imgs/sapporo-snow-festival-1536.jpg" alt="Inverno">
-                <input type="radio" name="estacao" value="INVERNO" checked>
                 <span>『冬』INVERNO</span>
-              </div>
-              <div class="radio_estacao_card shadow_aki">
+                <input type="radio" name="estacao" value="INVERNO" checked>
+              </label>
+              <label class="radio_estacao_card shadow_aki">
                 <img src="./assets/imgs/fukuoka_autumn.jpg" alt="Outono">
-                <input type="radio" name="estacao" value="OUTONO">
                 <span>『秋』OUTONO</span>
-              </div>
-              <div class="radio_estacao_card shadow_haru">
+                <input type="radio" name="estacao" value="OUTONO">
+              </label>
+              <label class="radio_estacao_card shadow_haru">
                 <img src="./assets/imgs/hanami.jpg" alt="Primavera">
-                <input type="radio" name="estacao" value="PRIMAVERA">
                 <span>『春』PRIMAVERA</span>
-              </div>
-              <div class="radio_estacao_card shadow_natsu">
+                <input type="radio" name="estacao" value="PRIMAVERA">
+              </label>
+              <label class="radio_estacao_card shadow_natsu">
                 <img src="./assets/imgs/6.Summer-Festival.jpg" alt="Verão">
-                <input type="radio" name="estacao" value="VERÃO">
                 <span>『夏』VERÃO</span>
-              </div>
+                <input type="radio" name="estacao" value="VERÃO">
+              </label>
             </div>
           </div>
 
@@ -160,151 +160,155 @@
 
 <script>
 
-function cadastrar() {
-  var estacao = document.querySelector('input[name="estacao"]:checked').value;
-  var apelido = apelido_viagem_input.value;
-  var dataIda = dt_ida_input.value;       // "yyyy-mm-dd"
-  var dataVolta = dt_volta_input.value;
-  var valorGuardado = Number(valor_guardado_input.value);
-  var hoje = new Date().toLocaleDateString("sv-SE");
+  function cadastrar() {
+    var estacao = document.querySelector('input[name="estacao"]:checked').value;
+    var apelido = apelido_viagem_input.value;
+    var dataIda = dt_ida_input.value;       // "yyyy-mm-dd"
+    var dataVolta = dt_volta_input.value;
+    var valorGuardado = Number(valor_guardado_input.value);
+    var hoje = new Date().toLocaleDateString("sv-SE");
 
-  limparErros();
-  var temErro = false;
+    limparErros();
+    var temErro = false;
 
-  if (apelido == null || apelido == "" || apelido.trim().length < 2) {
-    erro_apelido.textContent = "Apelido deve ter pelo menos 2 dígitos";
-    temErro = true;
-  }
+    if (apelido == null || apelido == "" || apelido.trim().length < 2) {
+      erro_apelido.textContent = "Apelido deve ter pelo menos 2 dígitos";
+      temErro = true;
+    }
 
-  if (dataIda == null || dataIda == "" || dataIda < hoje) {
-    erro_dt_ida.textContent = "Data de ida inválida (não pode ser no passado)";
-    temErro = true;
-  }
+    if (dataIda == null || dataIda == "" || dataIda < hoje) {
+      erro_dt_ida.textContent = "Data de ida inválida (não pode ser no passado)";
+      temErro = true;
+    }
 
-  if (dataVolta == null || dataVolta == "" || dataVolta <= dataIda) {
-    erro_dt_volta.textContent = "Data de volta deve ser depois da data de ida";
-    temErro = true;
-  }
+    if (dataVolta == null || dataVolta == "" || dataVolta <= dataIda) {
+      erro_dt_volta.textContent = "Data de volta deve ser depois da data de ida";
+      temErro = true;
+    }
 
-  if (valor_guardado_input.value == null || valor_guardado_input.value == "" || isNaN(valorGuardado) || valorGuardado < 0) {
-    erro_valor.textContent = "Valor deve ser um número maior ou igual a 0";
-    temErro = true;
-  }
+    if (valor_guardado_input.value == null || valor_guardado_input.value == "" || isNaN(valorGuardado) || valorGuardado < 0) {
+      erro_valor.textContent = "Valor deve ser um número maior ou igual a 0";
+      temErro = true;
+    }
 
-  if (temErro) return;
+    if (temErro) return;
 
-  var diasNoJapao = diasEntre(dataIda, dataVolta) - 2;
+    var diasNoJapao = diasEntre(dataIda, dataVolta) - 2;
 
-  if (diasNoJapao < 3) {
-    erro_dt_volta.textContent = "Período curto demais (considerando os 2 dias de viagem)";
-    return;
-  }
+    if (diasNoJapao < 3) {
+      erro_dt_volta.textContent = "Período curto demais (considerando os 2 dias de viagem)";
+      return;
+    }
 
-  fetch("http://localhost:8080/viagens", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      apelidoViagem: apelido,
-      estacaoDoAno: estacao,
-      dataIda: dataIda,
-      dataVolta: dataVolta,
-      diasNoJapao: diasNoJapao,
-      reservaViagem: valorGuardado
+    fetch("http://localhost:8080/viagens", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        apelidoViagem: apelido,
+        estacaoDoAno: estacao,
+        dataIda: dataIda,
+        dataVolta: dataVolta,
+        diasNoJapao: diasNoJapao,
+        reservaViagem: valorGuardado
+      })
     })
-  })
-    .then(function (resposta) {
-      if (resposta.ok) {
-        console.log("Viagem cadastrada com sucesso!");
-        limparFormulario();
-        carregarViagens();
-      } else if (resposta.status === 409) {
-        erro_apelido.textContent = "Já existe uma viagem com esse apelido";
-      } else if (resposta.status === 400) {
-        erro_apelido.textContent = "Dados inválidos, confira os campos";
-      } else {
-        erro_apelido.textContent = "Falha ao cadastrar viagem";
-      }
-    })
-    .catch(function (erro) {
-      erro_apelido.textContent = "Não foi possível conectar ao servidor";
-      console.log("Erro:", erro);
-    });
-}
-
-function limparErros() {
-  erro_apelido.textContent = "";
-  erro_dt_ida.textContent = "";
-  erro_dt_volta.textContent = "";
-  erro_valor.textContent = "";
-}
-
-function limparFormulario() {
-  apelido_viagem_input.value = "";
-  dt_ida_input.value = "";
-  dt_volta_input.value = "";
-  valor_guardado_input.value = "";
-}
-
-// Calcula a diferença de dias entre duas strings "yyyy-mm-dd"
-function diasEntre(dataIniStr, dataFimStr) {
-  var ini = new Date(dataIniStr + "T00:00:00");
-  var fim = new Date(dataFimStr + "T00:00:00");
-  return Math.round((fim - ini) / (1000 * 60 * 60 * 24));
-}
-
-function carregarViagens() {
-  fetch("http://localhost:8080/viagens")
-    .then(function (resposta) { return resposta.json(); })
-    .then(function (viagens) {
-      select_viagem.innerHTML = "<option value=''>-- SELECIONE --</option>";
-      viagens.forEach(function (v) {
-        var opt = document.createElement("option");
-        opt.value = v.apelidoViagem;
-        opt.textContent = v.apelidoViagem;
-        select_viagem.appendChild(opt);
+      .then(function (resposta) {
+        if (resposta.ok) {
+          console.log("Viagem cadastrada com sucesso!");
+          limparFormulario();
+          carregarViagens();
+        } else if (resposta.status === 409) {
+          erro_apelido.textContent = "Já existe uma viagem com esse apelido";
+        } else if (resposta.status === 400) {
+          erro_apelido.textContent = "Dados inválidos, confira os campos";
+        } else {
+          erro_apelido.textContent = "Falha ao cadastrar viagem";
+        }
+      })
+      .catch(function (erro) {
+        erro_apelido.textContent = "Não foi possível conectar ao servidor";
+        console.log("Erro:", erro);
       });
-    })
-    .catch(function (erro) {
-      console.log("Erro ao carregar viagens:", erro);
-    });
-}
-
-select_viagem.addEventListener("change", function () {
-  var apelido = select_viagem.value;
-  if (apelido == null || apelido == "") {
-    limparDetalhes();
-    return;
   }
 
-  fetch("http://localhost:8080/viagens/" + encodeURIComponent(apelido))
-    .then(function (resposta) { 
-      return resposta.json(); 
-    })
-    .then(function (v) {
-      span_apelido_viagem.textContent = v.apelidoViagem;
-      span_estacao_do_ano.textContent = v.estacaoDoAno
-      span_dt_ida.textContent = formatarDataBr(v.dataIda);
-      span_dt_volta.textContent = formatarDataBr(v.dataVolta);
-      span_horas_voo.textContent = "50h (ida e volta)";
-      span_dias_no_japao.textContent = v.diasNoJapao + " dias";
-      span_reserva_viagem.textContent = v.reservaViagem.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    })
-    .catch(function () { limparDetalhes(); });
-});
+  function limparErros() {
+    erro_apelido.textContent = "";
+    erro_dt_ida.textContent = "";
+    erro_dt_volta.textContent = "";
+    erro_valor.textContent = "";
+  }
 
-function limparDetalhes() {
-  span_apelido_viagem.textContent = "--//--";
-  span_dt_ida.textContent = "--//--";
-  span_dt_volta.textContent = "--//--";
-  span_horas_voo.textContent = "--//--";
-  span_dias_no_japao.textContent = "--//--";
-  span_reserva_viagem.textContent = "--//--";
-}
+  function limparFormulario() {
+    apelido_viagem_input.value = "";
+    dt_ida_input.value = "";
+    dt_volta_input.value = "";
+    valor_guardado_input.value = "";
+  }
 
-function formatarDataBr(dataIso) {
-  if (dataIso == null) return "--//--";
-  var partes = dataIso.split("-");
-  return partes[2] + "/" + partes[1] + "/" + partes[0];
-}
+
+  function diasEntre(dataIniStr, dataFimStr) {
+    var ini = new Date(dataIniStr + "T00:00:00");
+    var fim = new Date(dataFimStr + "T00:00:00");
+    return Math.round((fim - ini) / (1000 * 60 * 60 * 24));
+  }
+
+  function carregarViagens() {
+    fetch("http://localhost:8080/viagens")
+      .then(function (resposta) {
+        return resposta.json();
+      })
+      .then(function (viagens) {
+        select_viagem.innerHTML = "<option value=''>-- SELECIONE --</option>";
+        viagens.forEach(function (v) {
+          var opt = document.createElement("option");
+          opt.value = v.apelidoViagem;
+          opt.textContent = v.apelidoViagem;
+          select_viagem.appendChild(opt);
+        });
+      })
+      .catch(function (erro) {
+        console.log("Erro ao carregar viagens:", erro);
+      });
+  }
+
+  select_viagem.addEventListener("change", function () {
+    var apelido = select_viagem.value;
+    if (apelido == null || apelido == "") {
+      limparDetalhes();
+      return;
+    }
+
+    fetch("http://localhost:8080/viagens/" + encodeURIComponent(apelido))
+      .then(function (resposta) {
+        return resposta.json();
+      })
+      .then(function (v) {
+        span_apelido_viagem.textContent = v.apelidoViagem;
+        span_estacao_do_ano.textContent = v.estacaoDoAno
+        span_dt_ida.textContent = formatarDataBr(v.dataIda);
+        span_dt_volta.textContent = formatarDataBr(v.dataVolta);
+        span_horas_voo.textContent = "~50h (ida + volta)";
+        span_dias_no_japao.textContent = v.diasNoJapao + " dias";
+        span_reserva_viagem.textContent = v.reservaViagem.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      })
+      .catch(function () {
+        limparDetalhes();
+      });
+  });
+
+  function limparDetalhes() {
+    span_apelido_viagem.textContent = "--//--";
+    span_dt_ida.textContent = "--//--";
+    span_dt_volta.textContent = "--//--";
+    span_horas_voo.textContent = "--//--";
+    span_dias_no_japao.textContent = "--//--";
+    span_reserva_viagem.textContent = "--//--";
+  }
+
+  function formatarDataBr(dataIso) {
+    if (dataIso == null) return "--//--";
+    var partes = dataIso.split("-");
+    return partes[2] + "/" + partes[1] + "/" + partes[0];
+  }
 
 </script>
